@@ -19,21 +19,21 @@ namespace softhsm_csharp.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Key>>> Getkeys()
         {
-          if (_context.keys == null)
-          {
-              return NotFound();
-          }
-            return await _context.keys.ToListAsync();
+            if (_context.keys == null)
+            {
+                return NotFound();
+            }
+                return await _context.keys.ToListAsync();
         }
 
         // GET: api/Key/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Key>> GetKey(long id)
         {
-          if (_context.keys == null)
-          {
-              return NotFound();
-          }
+            if (_context.keys == null)
+            {
+                return NotFound();
+            }
             var key = await _context.keys.FindAsync(id);
 
             if (key == null)
@@ -80,10 +80,11 @@ namespace softhsm_csharp.Controllers
         [HttpPost("generate")]
         public async Task<ActionResult<Key>> PostKey(Key key)
         {
-          if (_context.keys == null)
-          {
-              return Problem("Entity set 'KeyContext.keys'  is null.");
-          }
+            if (_context.keys == null)
+            {
+                return Problem("Entity set 'KeyContext.keys'  is null.");
+            }
+            // TODO - Generate specified key via Services.KeyService
             _context.keys.Add(key);
             await _context.SaveChangesAsync();
 
