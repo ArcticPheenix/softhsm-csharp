@@ -84,7 +84,12 @@ namespace softhsm_csharp.Controllers
             {
                 return Problem("Entity set 'KeyContext.keys'  is null.");
             }
+            if (key.KeyType == null)
+            {
+                return Problem("Can not have empty KeyType");
+            }
             // TODO - Generate specified key via Services.KeyService
+            
             _context.keys.Add(key);
             await _context.SaveChangesAsync();
 
