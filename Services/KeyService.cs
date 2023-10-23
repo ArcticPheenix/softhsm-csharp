@@ -17,6 +17,7 @@ public class KeyService
                     aesKey.KeySize = key.KeySize;
                     aesKey.GenerateKey();
                     key.KeyMaterial = Convert.ToBase64String(aesKey.Key);
+                    key.CreationDate = DateTime.Now;
                 }
                 break;
             case "RSA":

@@ -8,11 +8,10 @@ public class Key
     public string? KeyMaterial { get; set; }
     [AllowedKeyTypeValue("AES", "RSA", "ECDSA", "ED25519")]
     public string? KeyType { get; set; }
-    public string? KeyUsage {get; set; }
+    [AllowedKeySizeValue(128, 256, 2048, 4096)]
     public int KeySize { get; set; }
     public string? Algorithm { get; set; }
     public DateTime CreationDate { get; set; }
-    public DateTime ExpiryDate { get; set; }
     public string? State { get; set; }
     public int Version { get; set; }
 }
@@ -31,6 +30,26 @@ public class AllowedKeyTypeValueAttribute : ValidationAttribute
         if (value == null || !_allowedValues.Contains(value.ToString()))
         {
             return new ValidationResult($"KeyType must be one of: {string.Join(", ", _allowedValues)}");
+        }
+        return ValidationResult.Success;
+    }
+}
+
+public class AllowedKeySizeValueAttribute : ValidationAttribute
+{
+    private readonly int[] _allowedValues;
+
+    public AllowedKeySizeValueAttribute(params int[] allowedValues)
+    {
+        _allowedValues = allowedValues;
+    }
+
+    protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
+    {
+        int index = Array.IndexOf(_allowedValues, value);
+        if (value == null || index == -1)
+        {
+            return new ValidationResult($"KeySize must be one of: {string.Join(", ", _allowedValues)}");
         }
         return ValidationResult.Success;
     }
